@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>Tournies App</title>
+		<script type="text/javascript" src="js/libs/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/libs/amplify.js"></script>
+
+		<script type="text/javascript" src="js/libs/knockout-3.0.0.js"></script>
+		
+		<script type="text/javascript" src="js/tournies/config.js"></script>
+		<script type="text/javascript" src="js/tournies/models.js"></script>
+		<script type="text/javascript" src="js/tournies/views.js"></script>
+		<script type="text/javascript" src="js/tournies/loader.js"></script>
+		
+	</head>
+	<body id="tourniesApp">
+		<div id="playerNames" data-bind="visible: visible">
+			<div>
+				Pick the player names:
+			
+				<ul data-bind="foreach: players">
+					<li>Name: <input data-bind="value: name" type="text"></li>
+				</ul>
+
+				<input data-bind="click: playerNamesSelected" value="Next!" type="button">
+			</div>
+		</div>
+		<div id="league" data-bind="visible: visible">
+			This match:
+			
+			<span data-bind="text: currentMatchPlayer1"></span>
+			<span data-bind="text: currentMatchPlayer2"></span>
+			
+			
+			Next match:
+			
+			<span data-bind="text: nextMatchPlayer1"></span>
+			<span data-bind="text: nextMatchPlayer2"></span>
+			
+			Current table:
+			<table>
+				<thead>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>		
+	</body>
+</html>
