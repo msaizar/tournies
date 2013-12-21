@@ -1,4 +1,4 @@
 tournies
 ========
 
-Organize leagues and tournaments with 3 friends
+Organize leagues with 3 friends
