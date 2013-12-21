@@ -48,11 +48,20 @@ function LeagueView() {
 	
 	self.matches = ko.observableArray([]);
 	self.visible = ko.observable(false);
-	self.placeholderMatch = {player1Name: '', player2Name: ''};
+	
+	self.currentMatchPlayer1Score = ko.observable('-');
+	self.currentMatchPlayer2Score = ko.observable('-');
+	
+	
+	self.playedMatches = ko.computed(function() {
+        return ko.utils.arrayFilter(self.matches(), function(item) {
+			return (item.player1Score() != '-' && item.player2Score() != '-');		
+        });
+	});
 	
 	self.remainingMatches = ko.computed(function() {
         return ko.utils.arrayFilter(self.matches(), function(item) {
-			return (item.player1Points() == '-' && item.player2Points() == '-');		
+			return (item.player1Score() == '-' && item.player2Score() == '-');		
         });
 	});
 		
@@ -98,6 +107,15 @@ function LeagueView() {
 		
 	});
 	
+	self.updateCurrentMatch = function() {
+		var match = self.remainingMatches()[0];
+		match.player1Score(self.currentMatchPlayer1Score());
+		match.player2Score(self.currentMatchPlayer2Score());
+		self.currentMatchPlayer1Score('-');
+		self.currentMatchPlayer2Score('-');
+		
+		
+	}
 		
 	
 	self.createLeague = function(players) {

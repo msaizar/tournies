@@ -25,11 +25,20 @@
 			</div>
 		</div>
 		<div id="league" data-bind="visible: visible">
+			
+			Match history:
+			
+			<ul data-bind="foreach: playedMatches">
+				<li><span data-bind="text: player1.name"></span>: <span data-bind="text: player1Score"></span> - <span data-bind="text: player2.name"></span>: <span data-bind="text: player2Score"></span></li>
+			</ul>
+			
 			This match:
 			
 			<span data-bind="text: currentMatchPlayer1"></span>
+			<input type="text" data-bind="value: currentMatchPlayer1Score">
 			<span data-bind="text: currentMatchPlayer2"></span>
-			
+			<input type="text" data-bind="value: currentMatchPlayer2Score">
+			<input type="button" value="Update match" data-bind="click: updateCurrentMatch">
 			
 			Next match:
 			
