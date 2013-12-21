@@ -1,79 +1,122 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<title>Tournies App</title>
-		<script type="text/javascript" src="js/libs/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="js/libs/amplify.js"></script>
-
-		<script type="text/javascript" src="js/libs/knockout-3.0.0.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-		<script type="text/javascript" src="js/tournies/config.js"></script>
-		<script type="text/javascript" src="js/tournies/models.js"></script>
-		<script type="text/javascript" src="js/tournies/views.js"></script>
-		<script type="text/javascript" src="js/tournies/loader.js"></script>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		
+		<script type="text/javascript" src="core/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="core/js/amplify.js"></script>
+
+		<script type="text/javascript" src="core/js/knockout-3.0.0.js"></script>
+		
+		<script type="text/javascript" src="tournies/js/config.js"></script>
+		<script type="text/javascript" src="tournies/js/models.js"></script>
+		<script type="text/javascript" src="tournies/js/views.js"></script>
+		<script type="text/javascript" src="tournies/js/loader.js"></script>
 		
 	</head>
 	<body id="tourniesApp">
-		<div id="playerNames" data-bind="visible: visible">
-			<div>
-				Pick the player names:
+		<div class="container">
+			<div id="playerNames" data-bind="visible: visible">
+				<h3>Pick the player names</h3>
 			
-				<ul data-bind="foreach: players">
-					<li>Name: <input data-bind="value: name" type="text"></li>
-				</ul>
-
-				<input data-bind="click: playerNamesSelected" value="Next!" type="button">
+				<form class="form-horizontal" role="form" data-bind="foreach: players">
+					<div class="form-group">
+				    	<label>Player Name</label>
+				    	<input data-bind="value: name" type="text">
+				  	</div>
+				</form>
+				<button data-bind="click: playerNamesSelected" type="submit" class="btn btn-default">Next!</button>
+			
+			  
+			  			  
 			</div>
-		</div>
-		<div id="league" data-bind="visible: visible">
-			
-			Match history:
-			
-			<ul data-bind="foreach: playedMatches">
-				<li><span data-bind="text: player1.name"></span>: <span data-bind="text: player1Score"></span> - <span data-bind="text: player2.name"></span>: <span data-bind="text: player2Score"></span></li>
-			</ul>
-			
-			This match:
-			
-			<span data-bind="text: currentMatchPlayer1"></span>
-			<input type="text" data-bind="value: currentMatchPlayer1Score">
-			<span data-bind="text: currentMatchPlayer2"></span>
-			<input type="text" data-bind="value: currentMatchPlayer2Score">
-			<input type="button" value="Update match" data-bind="click: updateCurrentMatch">
-			
-			Next match:
-			
-			<span data-bind="text: nextMatchPlayer1"></span>
-			<span data-bind="text: nextMatchPlayer2"></span>
-			
-			Current table:
-			<table>
-				<thead>
-					<tr>
-						<td>Player</td>
-						<td>Played</td>
-						<td>Won</td>
-						<td>Lost</td>
-						<td>Tied</td>
-						<td>Total For</td>
-						<td>Total Against</td>
-						<td>Points</td>
+			<div id="league" data-bind="visible: visible">
+				
+				<div class="row">
+					<h3>Current standings</h3>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Player</td>
+								<td>Played</td>
+								<td>Won</td>
+								<td>Lost</td>
+								<td>Tied</td>
+								<td>Total For</td>
+								<td>Total Against</td>
+								<td>Points</td>
 						
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: sortedPlayers">
-					<tr>
-						<td data-bind="text: name"></td>
-						<td data-bind="text: totalPlayed"></td>
-						<td data-bind="text: totalWon"></td>
-						<td data-bind="text: totalLost"></td>
-						<td data-bind="text: totalTied"></td>
-						<td data-bind="text: totalForScore"></td>
-						<td data-bind="text: totalAgainstScore"></td>
-						<td data-bind="text: totalPoints"></td>
-					<tr>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: sortedPlayers">
+							<tr>
+								<td data-bind="text: name"></td>
+								<td data-bind="text: totalPlayed"></td>
+								<td data-bind="text: totalWon"></td>
+								<td data-bind="text: totalLost"></td>
+								<td data-bind="text: totalTied"></td>
+								<td data-bind="text: totalForScore"></td>
+								<td data-bind="text: totalAgainstScore"></td>
+								<td data-bind="text: totalPoints"></td>
+							<tr>
 
-				</tbody>
-			</table>
-		</div>		
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="row">			
+					<div class="col-lg-4">
+						<h3>This match</h3>
+						<form class="form-horizontal" role="form">
+							<div class="form-group">
+								<label data-bind="text: currentMatchPlayer1"></label>
+								<input type="text" data-bind="value: currentMatchPlayer1Score">
+							</div>
+							<div class="form-group">
+								<label data-bind="text: currentMatchPlayer2"></label>
+								<input type="text" data-bind="value: currentMatchPlayer2Score">
+							</div>
+						</form>
+						
+						<input type="button" value="Update match" class="btn btn-default" data-bind="click: updateCurrentMatch">
+					</div>
+					<div class="col-lg-4">
+						<h3>Upcoming match</h3>			
+						<span data-bind="text: nextMatchPlayer1"></span> - <span data-bind="text: nextMatchPlayer2"></span>
+					</div>
+				
+					<div class="col-lg-4" data-bind="visible: playedMatches().length > 0">
+						<h3>Match history</h3>
+			
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td>Home</td>
+									<td>Home Score</td>
+									<td>Away</td>
+									<td>Away Score</td>
+						
+								</tr>
+							</thead>
+							<tbody data-bind="foreach: playedMatches">
+								<tr>
+									<td data-bind="text: player1.name"></td>
+									<td data-bind="text: player1Score"></td>
+									<td data-bind="text: player2.name"></td>
+									<td data-bind="text: player2Score"></td>
+								<tr>
+
+							</tbody>
+						</table>
+			
+					</div>
+				</div>
+				
+				
+			</div>		
+		</div>
 	</body>
 </html>
