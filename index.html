@@ -48,8 +48,30 @@
 			Current table:
 			<table>
 				<thead>
+					<tr>
+						<td>Player</td>
+						<td>Played</td>
+						<td>Won</td>
+						<td>Lost</td>
+						<td>Tied</td>
+						<td>Total For</td>
+						<td>Total Against</td>
+						<td>Points</td>
+						
+					</tr>
 				</thead>
-				<tbody>
+				<tbody data-bind="foreach: sortedPlayers">
+					<tr>
+						<td data-bind="text: name"></td>
+						<td data-bind="text: totalPlayed"></td>
+						<td data-bind="text: totalWon"></td>
+						<td data-bind="text: totalLost"></td>
+						<td data-bind="text: totalTied"></td>
+						<td data-bind="text: totalForScore"></td>
+						<td data-bind="text: totalAgainstScore"></td>
+						<td data-bind="text: totalPoints"></td>
+					<tr>
+
 				</tbody>
 			</table>
 		</div>		
