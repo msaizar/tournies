@@ -1,4 +1,4 @@
-tournies
+Tournies
 ========
 
-Organize leagues with 3 friends. Sample app made with Knockout.js, amplify.js and Bootstrap.
+Webapp that uses Knockout.js, pager.js, require.js, jQuery and Bootstrap CSS.
