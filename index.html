@@ -90,6 +90,8 @@
 			<div style="display:none;" id="league" data-bind="page: {id: 'league'}">
 				
 				<div class="row">
+                    <div class="col-sm-12">		
+                    
 					<h3>Current standings</h3>
 					<table class="table table-striped">
 						<thead>
@@ -105,7 +107,7 @@
 						
 							</tr>
 						</thead>
-						<tbody data-bind="foreach: game().sortedPlayers">
+						<tbody data-bind="foreach: game().players().sort(function (l, r) { return l.totalPoints < r.totalPoints ? 1 : -1 })">
 							<tr>
 								<td data-bind="text: name"></td>
 								<td data-bind="text: totalPlayed"></td>
@@ -115,34 +117,49 @@
 								<td data-bind="text: totalForScore"></td>
 								<td data-bind="text: totalAgainstScore"></td>
 								<td data-bind="text: totalPoints"></td>
-							<tr>
+							</tr>
 
 						</tbody>
 					</table>
 				</div>
-				
-				<div class="row">			
-					<div class="col-lg-4">
-						<h3>This match</h3>
-						<form class="form-horizontal" role="form">
-							<div class="form-group">
-								<label data-bind="text: game().currentMatchPlayer1"></label>
-								<input type="text" data-bind="value: game().currentMatchPlayer1Score">
-							</div>
-							<div class="form-group">
-								<label data-bind="text: game().currentMatchPlayer2"></label>
-								<input type="text" data-bind="value: game().currentMatchPlayer2Score">
-							</div>
-						</form>
-						
-						<input type="button" value="Update match" class="btn btn-default" data-bind="click: updateCurrentMatch">
-					</div>
-					<div class="col-lg-4">
+            </div>
+				<div class="row">	
+                    
+                    <div class="col-sm-4" data-bind="visible: game().playedMatches().length < game().matches().length">		
+					<h3>This match</h3>
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="current_1" data-bind="text: game().currentMatchPlayer1"></label>
+                            <div class="col-sm-10">
+                            
+                                <input class="form-control" id="current_1" type="text" data-bind="value: game().currentMatchPlayer1Score">
+                            </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="current_2" data-bind="text: game().currentMatchPlayer2"></label>
+                            <div class="col-sm-10">
+                            
+							    <input class="form-control" id="current_2" type="text" data-bind="value: game().currentMatchPlayer2Score">
+                            </div>
+						</div>
+					</form>
+                    <div class="form-group">
+                       <div class="col-sm-offset-2 col-sm-10">
+					
+                           <input type="button" value="Update match" class="btn btn-default" data-bind="click: updateCurrentMatch">    
+                       </div>
+                   </div>
+                </div>
+                
+				<div class="col-sm-4" data-bind="visible: game().playedMatches().length < game().matches().length">			
 						<h3>Upcoming match</h3>			
+                        <span data-bind="visible: game().playedMatches().length != game().matches().length - 1">
 						<span data-bind="text: game().nextMatchPlayer1"></span> - <span data-bind="text: game().nextMatchPlayer2"></span>
+                        </span>
+                        <span data-bind="visible: game().playedMatches().length == game().matches().length - 1">No upcoming matches</span>
 					</div>
 				
-					<div class="col-lg-4" data-bind="visible: game().playedMatches().length > 0">
+					<div class="col-sm-4" data-bind="visible: game().playedMatches().length > 0">
 						<h3>Match history</h3>
 			
 						<table class="table table-striped">
@@ -169,8 +186,8 @@
 					</div>
 				</div>
 				
-				
-			</div>		
+            </div>
+			    </div>		
 		</div>
 	</body>
 </html>

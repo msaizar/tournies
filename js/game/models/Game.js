@@ -9,9 +9,6 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	self.currentMatchPlayer1Score = ko.observable('-');
     	self.currentMatchPlayer2Score = ko.observable('-');
     
-    	self.setPlayerQuantity = function(data) {
-    		self.playerQuantity(data);
-    	}
 	
     	self.addPlayer = function(player) {
     		self.players.push(player);
@@ -26,14 +23,10 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	}
         
         self.resetPlayers = function() {
-    		for (var i = 0; i < self.players(); i++ ) {
-                self.players()[i].reset();
-    		}
+            ko.utils.arrayForEach(self.players(), function(player) {
+                player.reset();
+            });
         }
-	
-    	self.getRandomInt = function(min, max) {
-    		return Math.floor(Math.random() * (max - min + 1)) + min;
-    	}
         
     	self.createEmptyPlayers = function() {	
             self.players([]);	
@@ -47,10 +40,10 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	self.createLeague = function() {
     		//create all possible matches
             self.matches([]);
-            self.sortedPlayers();
         	self.currentMatchPlayer1Score('-');
         	self.currentMatchPlayer2Score('-');
             self.resetPlayers();
+            
             
     		for (var i=0; i < self.players().length; i++) {
     			for (var j=i+1; j < self.players().length; j++) {
@@ -68,26 +61,7 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
 
 	
 
-	
-	
-    	self.sortedPlayers = ko.computed(function() {
-        	var compare = function(a, b) {
-        		if (a.totalPoints() == b.totalPoints()) {
-        			return 0;
-        		}
-        		else if (a.totalPoints() < b.totalPoints()) {
-        			return 1;
-        		}
-        		else {
-        			return -1;
-        		}
-    		}
-            
-    		var players = self.players();
-    		players.sort(compare);
-    		return players;
-    	});
-	
+
     	self.playedMatches = ko.computed(function() {
             return ko.utils.arrayFilter(self.matches(), function(item) {
     			return (item.player1Score() != '-' && item.player2Score() != '-');		
