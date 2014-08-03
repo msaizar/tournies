@@ -4,7 +4,7 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	self.playerQuantity = ko.observable(3);
     	self.players = ko.observableArray([]);
     	self.matches = ko.observableArray([]);
-	
+	    self.homeAndAway = ko.observable(false)
 	
     	self.currentMatchPlayer1Score = ko.observable('-');
     	self.currentMatchPlayer2Score = ko.observable('-');
@@ -55,9 +55,12 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     		for (var i=0; i < self.players().length; i++) {
     			for (var j=i+1; j < self.players().length; j++) {
     				var home_match = new Match(self.players()[i], self.players()[j]);
-    				var away_match = new Match(self.players()[j], self.players()[i]);
     				self.matches.push(home_match);
-    				self.matches.push(away_match);
+                    
+                    if (self.homeAndAway()) {
+                        var away_match = new Match(self.players()[j], self.players()[i]);
+    				    self.matches.unshift(away_match);
+                    }
     			}
     		}; 
     	}      
