@@ -95,26 +95,6 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	});
 	
 
-    	self.nextMatchPlayer1 = ko.computed(function() {
-    		if (self.remainingMatches().length <= 1) {
-    			return '';
-    		}
-    		else {
-    			return self.remainingMatches()[1].player1.name();
-    		}
-		
-    	});
-
-	
-    	self.nextMatchPlayer2 = ko.computed(function() {
-    		if (self.remainingMatches().length <= 1) {
-    			return '';
-    		}
-    		else {
-    			return self.remainingMatches()[1].player2.name();
-    		}
-		
-    	});
 	
     	self.updateCurrentMatch = function() {
     		var match = self.remainingMatches()[0];
@@ -135,8 +115,6 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     			player1.addLoss();
     			player2.addWin();
     		}
-    		player1.addPlayed();
-    		player2.addPlayed();
 		
     		if (match.player1Score() > 0) {
     			player1.addForScore(match.player1Score());

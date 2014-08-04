@@ -23,25 +23,27 @@ define(['knockout'], function(ko) {
             self.totalForScore(0);
         }
     
-    	self.addWin = function() {
-    		self.totalWon(self.totalWon() + 1);
-    		self.totalPoints(self.totalPoints() + 3);
-    	}
-    	self.addLoss = function() {
-    		self.totalLost(self.totalLost() + 1);
-    		self.totalPoints(self.totalPoints() + 0);
-		
-    	}
-    	self.addTie = function() {
-    		self.totalTied(self.totalTied() + 1);
-    		self.totalPoints(self.totalPoints() + 1);
-		
-    	}
-	
     	self.addPlayed = function() {
     		self.totalPlayed(self.totalPlayed() + 1);
 		
     	}
+    	self.addWin = function() {
+    		self.totalWon(self.totalWon() + 1);
+    		self.totalPoints(self.totalPoints() + 3);
+            self.addPlayed();
+    	}
+    	self.addLoss = function() {
+    		self.totalLost(self.totalLost() + 1);
+    		self.totalPoints(self.totalPoints() + 0);
+            self.addPlayed();		
+    	}
+    	self.addTie = function() {
+    		self.totalTied(self.totalTied() + 1);
+    		self.totalPoints(self.totalPoints() + 1);
+            self.addPlayed();
+    	}
+	
+
     	self.addForScore = function(value) {
     		self.totalForScore(self.totalForScore() + parseInt(value));
     	}

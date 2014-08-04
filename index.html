@@ -40,14 +40,14 @@
 				    	<label class="col-sm-2 control-label" for="player-number">Player Number</label>
                         <div class="col-sm-10">
                         
-	                        <input id="player-number" class="form-control" data-bind="value: game().playerQuantity" type="text">
+	                        <input id="player-number" class="form-control" data-bind="value: game.playerQuantity" type="text">
                         </div>
 				  	</div>
 					<div class="form-group">
 				    	<label class="col-sm-2 control-label" for="home-away">Home and away matches?</label>
                         <div class="col-sm-10">
                         
-	                        <input id="home-away" class="form-control" data-bind="checked: game().homeAndAway" type="checkbox">
+	                        <input id="home-away" class="form-control" data-bind="checked: game.homeAndAway" type="checkbox">
                         </div>
 				  	</div>
                     <div class="form-group">
@@ -67,7 +67,7 @@
                 
 
                 <form class="form-horizontal" role="form">
-                    <!-- ko foreach: game().players -->
+                    <!-- ko foreach: game.players -->
 					<div class="form-group">
 				    	<label class="col-sm-2 control-label">Player Name</label>
                         <div class="col-sm-10">
@@ -107,7 +107,7 @@
 						
 							</tr>
 						</thead>
-						<tbody data-bind="foreach: game().players().sort(function (l, r) { return l.totalPoints < r.totalPoints ? 1 : -1 })">
+						<tbody data-bind="foreach: game.players().sort(function (l, r) { return l.totalPoints < r.totalPoints ? 1 : -1 })">
 							<tr>
 								<td data-bind="text: name"></td>
 								<td data-bind="text: totalPlayed"></td>
@@ -125,21 +125,21 @@
             </div>
 				<div class="row">	
                     
-                    <div class="col-sm-4" data-bind="visible: game().playedMatches().length < game().matches().length">		
+                    <div class="col-sm-6" data-bind="visible: game.playedMatches().length < game.matches().length">		
 					<h3>This match</h3>
 					<form class="form-horizontal" role="form">
 						<div class="form-group">
-							<label class="col-sm-2 control-label" for="current_1" data-bind="text: game().currentMatchPlayer1"></label>
+							<label class="col-sm-2 control-label" for="current_1" data-bind="text: game.currentMatchPlayer1"></label>
                             <div class="col-sm-10">
                             
-                                <input class="form-control" id="current_1" type="text" data-bind="value: game().currentMatchPlayer1Score">
+                                <input class="form-control" id="current_1" type="text" data-bind="value: game.currentMatchPlayer1Score">
                             </div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label" for="current_2" data-bind="text: game().currentMatchPlayer2"></label>
+							<label class="col-sm-2 control-label" for="current_2" data-bind="text: game.currentMatchPlayer2"></label>
                             <div class="col-sm-10">
                             
-							    <input class="form-control" id="current_2" type="text" data-bind="value: game().currentMatchPlayer2Score">
+							    <input class="form-control" id="current_2" type="text" data-bind="value: game.currentMatchPlayer2Score">
                             </div>
 						</div>
 					</form>
@@ -150,16 +150,9 @@
                        </div>
                    </div>
                 </div>
-                
-				<div class="col-sm-4" data-bind="visible: game().playedMatches().length < game().matches().length">			
-						<h3>Upcoming match</h3>			
-                        <span data-bind="visible: game().playedMatches().length != game().matches().length - 1">
-						<span data-bind="text: game().nextMatchPlayer1"></span> - <span data-bind="text: game().nextMatchPlayer2"></span>
-                        </span>
-                        <span data-bind="visible: game().playedMatches().length == game().matches().length - 1">No upcoming matches</span>
-					</div>
+
 				
-					<div class="col-sm-4" data-bind="visible: game().playedMatches().length > 0">
+					<div class="col-sm-6" data-bind="visible: game.playedMatches().length > 0">
 						<h3>Match history</h3>
 			
 						<table class="table table-striped">
@@ -172,13 +165,13 @@
 						
 								</tr>
 							</thead>
-							<tbody data-bind="foreach: game().playedMatches">
+							<tbody data-bind="foreach: game.playedMatches">
 								<tr>
 									<td data-bind="text: player1.name"></td>
 									<td data-bind="text: player1Score"></td>
 									<td data-bind="text: player2.name"></td>
 									<td data-bind="text: player2Score"></td>
-								<tr>
+								</tr>
 
 							</tbody>
 						</table>
