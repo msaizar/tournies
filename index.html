@@ -31,36 +31,8 @@
         </nav>
 		<div class="container">
             
-			<div id="selectPlayerQuantity" data-bind="page: {id: 'start', title: 'Welcome to Leagues.pw'}">
-                <div class="page-header">
-                    <h1>Enter number of players</h1>
-                </div>
-				<form class="form-horizontal" role="form">
-					<div class="form-group">
-				    	<label class="col-sm-2 control-label" for="player-number">Player Number</label>
-                        <div class="col-sm-10">
-                        
-	                        <input id="player-number" class="form-control" data-bind="value: game.playerQuantity" type="text">
-                        </div>
-				  	</div>
-					<div class="form-group">
-				    	<label class="col-sm-2 control-label" for="home-away">Home and away matches?</label>
-                        <div class="col-sm-10">
-                        
-	                        <input id="home-away" class="form-control" data-bind="checked: game.homeAndAway" type="checkbox">
-                        </div>
-				  	</div>
-                    <div class="form-group">
-                       <div class="col-sm-offset-2 col-sm-10">
-    				       <a data-bind="click: quantitySelected" type="submit" class="btn btn-default">Next!</a>
-                        </div>
-                    </div>
-                    
-				</form>
-				
-			</div>
             
-			<div style="display:none;" id="selectPlayerNames" data-bind="page: {id: 'playernames'}">
+			<div style="display:none;" id="selectPlayerNames" data-bind="page: {id: 'start'}">
                 <div class="page-header">
 				    <h1>Enter player names</h1>
                 </div>
@@ -70,15 +42,20 @@
                     <!-- ko foreach: game.players -->
 					<div class="form-group">
 				    	<label class="col-sm-2 control-label">Player Name</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
 				    	    <input class="form-control" data-bind="value: name" type="text">
                         </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-default" data-bind="click: $root.removePlayer">X</a>
+                        </div>
+                        
 				  	</div>
                     <!-- /ko -->
                     <div class="form-group">
                        <div class="col-sm-offset-2 col-sm-10">
+    				<a data-bind="click: addPlayer" class="btn btn-default">Add</a>
                     
-				<a data-bind="click: playerNamesSelected" type="submit" class="btn btn-default">Play!</a>
+				<a data-bind="click: playerNamesSelected" class="btn btn-default">Play</a>
                     </div>
                 </div>
                 

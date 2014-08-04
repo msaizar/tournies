@@ -15,6 +15,14 @@ define(['knockout', 'pager', 'game/models/Game'], function(ko, pager, Game) {
             
     	}
         
+        self.removePlayer = function(data) {
+            self.game.removePlayer(data);
+        }
+        
+        self.addPlayer = function() {
+            self.game.addPlayer();
+        }
+	
 	
         self.updateCurrentMatch = function() {
             self.game.updateCurrentMatch();

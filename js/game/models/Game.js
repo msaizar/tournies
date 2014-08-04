@@ -4,10 +4,28 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	self.playerQuantity = ko.observable(3);
     	self.players = ko.observableArray([]);
     	self.matches = ko.observableArray([]);
-	    self.homeAndAway = ko.observable(false)
 	
     	self.currentMatchPlayer1Score = ko.observable('-');
     	self.currentMatchPlayer2Score = ko.observable('-');
+    
+    
+    	self.playedMatches = ko.computed(function() {
+            return ko.utils.arrayFilter(self.matches(), function(item) {
+    			return (item.player1Score() != '-' && item.player2Score() != '-');		
+            });
+    	});
+	
+    	self.remainingMatches = ko.computed(function() {
+            return ko.utils.arrayFilter(self.matches(), function(item) {
+    			return (item.player1Score() == '-' && item.player2Score() == '-');		
+            });
+    	});
+		
+    	self.currentMatchPlayer1 = ko.observable('-');         
+    	self.currentMatchPlayer2 = ko.observable('-'); 
+        
+
+
     
         self.sortedPlayers = ko.computed(function() {
             return self.players().sort(function(l,r) {
@@ -40,7 +58,8 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
             });
         });
 	
-    	self.addPlayer = function(player) {
+    	self.addPlayer = function() {
+            var player = new Player('Player ' + (self.players().length+1));
     		self.players.push(player);
     	}
 	
@@ -61,8 +80,7 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	self.createEmptyPlayers = function() {	
             self.players([]);	
     		for (var i = 0; i < self.playerQuantity(); i++ ) {
-    			var player = new Player('Player ' + (i+1));			
-    			self.addPlayer(player);
+    			self.addPlayer();
     		}
     	}
         
@@ -72,62 +90,55 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
             self.matches([]);
         	self.currentMatchPlayer1Score('-');
         	self.currentMatchPlayer2Score('-');
-            self.resetPlayers();
             
             
     		for (var i=0; i < self.players().length; i++) {
     			for (var j=i+1; j < self.players().length; j++) {
     				var home_match = new Match(self.players()[i], self.players()[j]);
-    				self.matches.push(home_match);
-                    
-                    if (self.homeAndAway()) {
-                        var away_match = new Match(self.players()[j], self.players()[i]);
-    				    self.matches.unshift(away_match);
-                    }
+    				self.matches.push(home_match);                    
     			}
     		}; 
+            self.currentMatchPlayer1(self.nextMatch().player1.name())
+            self.currentMatchPlayer2(self.nextMatch().player2.name())
+            
     	}      
         
 
-	
+	    self.nextMatch = function() {
+            var least_total_played_match = self.remainingMatches()[0]
+            var least_total_played_matches = []
+            ko.utils.arrayForEach(self.remainingMatches(), function(item) {
+                if (least_total_played_match.player1.totalPlayed() == item.player1.totalPlayed() && least_total_played_match.player2.totalPlayed() == item.player2.totalPlayed()) {
+                    least_total_played_matches.push(item)
+                    least_total_played_match = item;                        
+                }
+                if (least_total_played_match.player1.totalPlayed() > item.player1.totalPlayed() && least_total_played_match.player2.totalPlayed() > item.player2.totalPlayed()) {
+
+                    least_total_played_matches = [item]
+                    least_total_played_match = item;
+                    
+                }
+            });
+
+            var last_player = self.sortedPlayers()[self.sortedPlayers().length - 1];
+            
+            ko.utils.arrayForEach(least_total_played_matches, function(item) {
+                
+                if (item.player1 == last_player || item.player2 == last_player) {
+                    least_total_played_match = item;                        
+                }
+                
+            })
+            return least_total_played_match;
+	    }
 
 
-    	self.playedMatches = ko.computed(function() {
-            return ko.utils.arrayFilter(self.matches(), function(item) {
-    			return (item.player1Score() != '-' && item.player2Score() != '-');		
-            });
-    	});
-	
-    	self.remainingMatches = ko.computed(function() {
-            return ko.utils.arrayFilter(self.matches(), function(item) {
-    			return (item.player1Score() == '-' && item.player2Score() == '-');		
-            });
-    	});
-		
-    	self.currentMatchPlayer1 = ko.computed(function() {
-		
-    		if (self.remainingMatches().length == 0) {
-    			return '';
-    		}
-    		else {
-    			return self.remainingMatches()[0].player1.name();
-    		}
-    	});
-	
-    	self.currentMatchPlayer2 = ko.computed(function() {
-		
-    		if (self.remainingMatches().length == 0) {
-    			return '';
-    		}
-    		else {
-    			return self.remainingMatches()[0].player2.name();
-    		}
-    	});
+
 	
 
 	
     	self.updateCurrentMatch = function() {
-    		var match = self.remainingMatches()[0];
+    		var match = self.nextMatch();
     		match.player1Score(self.currentMatchPlayer1Score());
     		match.player2Score(self.currentMatchPlayer2Score());
     		var player1 = match.player1;
@@ -157,8 +168,11 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
 			
     		}
 		
-		
-    		self.currentMatchPlayer1Score('-');
+		    if (self.nextMatch() != undefined) {
+                self.currentMatchPlayer1(self.nextMatch().player1.name())
+                self.currentMatchPlayer2(self.nextMatch().player2.name())        
+    		}
+            self.currentMatchPlayer1Score('-');
     		self.currentMatchPlayer2Score('-');
 		
 		
