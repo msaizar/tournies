@@ -107,7 +107,7 @@
 						
 							</tr>
 						</thead>
-						<tbody data-bind="foreach: game.players().sort(function (l, r) { return l.totalPoints < r.totalPoints ? 1 : -1 })">
+						<tbody data-bind="foreach: game.sortedPlayers()">
 							<tr>
 								<td data-bind="text: name"></td>
 								<td data-bind="text: totalPlayed"></td>

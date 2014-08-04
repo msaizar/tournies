@@ -9,6 +9,36 @@ define(['jquery', 'knockout', 'game/models/Match', 'game/models/Player'], functi
     	self.currentMatchPlayer1Score = ko.observable('-');
     	self.currentMatchPlayer2Score = ko.observable('-');
     
+        self.sortedPlayers = ko.computed(function() {
+            return self.players().sort(function(l,r) {
+                if (l.totalPoints() > r.totalPoints()) {
+                    return -1;
+                }
+                else if (l.totalPoints() < r.totalPoints()) {
+                    return 1;
+                }
+                else {
+                    if (l.totalForScore() > r.totalForScore()) {
+                        return -1;
+                    }
+                    else if (l.totalForScore() < r.totalForScore()) {
+                        return 1;
+                    }
+                    else {
+                        if (l.totalAgainstScore() > r.totalAgainstScore()) {
+                            return 1;
+                        }
+                        else if (l.totalForScore() < r.totalForScore()) {
+                            return -1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    }
+
+                }
+            });
+        });
 	
     	self.addPlayer = function(player) {
     		self.players.push(player);
